@@ -23,4 +23,4 @@ const taskSchema = new Schema(
     },
 );
 
-export const TaskCollection = model('tasks', taskSchema)
+export const TaskCollection = model('tasks', taskSchema);
