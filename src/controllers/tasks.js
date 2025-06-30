@@ -18,7 +18,7 @@ export const getTasksController = async(req, res) => {
         message: "Successfully found tasks!",
         data,
     });
-}
+};
 
 export const getTasksByIdController = async(req, res) => {
     const {taskId} = req.params;
@@ -42,7 +42,7 @@ export const createTaskController = async(req, res) => {
         status:201,
         message: "Successfully created a task!",
         data,
-    })
+    });
 };
 
 export const deleteTaskController = async(req, res, next) => {
