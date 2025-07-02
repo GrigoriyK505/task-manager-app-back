@@ -16,7 +16,7 @@ export const getTasksController = async(req, res) => {
     res.json({
         status: 200,
         message: "Successfully found tasks!",
-        data,
+        ...data,
     });
 };
 
