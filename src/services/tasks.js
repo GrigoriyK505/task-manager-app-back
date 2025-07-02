@@ -2,33 +2,36 @@ import {TaskCollection} from "../db/models/Task.js";
 import { calculatePaginationData } from "../utils/calculatePaginationData.js";
 
 export const getTasks = async ({
-    page = 1,
-    perPage = 10,
-    filter = {},
+  page = 1,
+  perPage = 10,
+  completed,
 }) => {
-    const limit = perPage;
-    const skip = (page - 1) * perPage;
+  const limit = perPage;
+  const skip = (page - 1) * perPage;
 
-    const tasksQuery = TaskCollection.find();
-    
-    if(filter.taskType) {
-        tasksQuery.where('taskType').regex(new RegExp(filter.taskType, 'i'));
-    }
+  const filter = {};
 
-    const [tasksCount, tasks] = await Promise.all([
-        TaskCollection.find({}).merge(tasksQuery).countDocuments(),
-        tasksQuery
-            .skip(skip)
-            .limit(limit)
-            .exec(),
-    ]);
+  if (completed === 'true') {
+    filter.completed = true;
+  } else if (completed === 'false') {
+    filter.completed = false;
+  }
 
-    const paginationData = calculatePaginationData(tasksCount, perPage, page);
+  const tasksQuery = TaskCollection.find(filter);
 
-    return {
-        data: tasks, ...paginationData,
-    };
+  const [tasksCount, tasks] = await Promise.all([
+    TaskCollection.countDocuments(filter),
+    tasksQuery.skip(skip).limit(limit).exec(),
+  ]);
+
+  const paginationData = calculatePaginationData(tasksCount, perPage, page);
+
+  return {
+    data: tasks,
+    ...paginationData,
+  };
 };
+
 
 export const getTaskById = taskId => TaskCollection.findOne({_id: taskId});
 

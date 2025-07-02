@@ -16,12 +16,13 @@ export const getTasksController = async (req, res, next) => {
     const data = await getTasks({
         page, 
         perPage,
+        completed: req.query.completed
     });
 
     res.json({
         status: 200,
         message: "Successfully found contacts!",
-        data,
+        ...data,
     });
 };
 
