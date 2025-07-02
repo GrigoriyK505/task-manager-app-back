@@ -6,25 +6,27 @@ export const getTasksController = async (req, res, next) => {
     const {page, perPage} = parsePaginationParams(req.query);
     const { filter = 'all' } = req.query;
 
-    let query = {};
-    if(filter === 'complete') {
-        query.completed = true;
-    } else if (filter === 'active') {
-        query.completed = false;
-    }
+    let completedFilter;
+    if (filter === 'complete') completedFilter = true;
+    else if (filter === 'active') completedFilter = false;
+    else completedFilter = undefined;
+
+    if (req.query.completed === 'true') completedFilter = true;
+    else if (req.query.completed === 'false') completedFilter = false;
 
     const data = await getTasks({
         page, 
         perPage,
-        completed: req.query.completed
+        completed: completedFilter
     });
 
     res.json({
         status: 200,
-        message: "Successfully found contacts!",
+        message: "Successfully found tasks!",
         ...data,
     });
 };
+
 
 
 export const getTasksByIdController = async(req, res) => {
