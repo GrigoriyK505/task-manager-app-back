@@ -12,10 +12,14 @@ const taskSchema = new Schema(
         },
         taskType: {
             type: String,
-            enum: ['all', 'complete', 'incomplete'],
+            enum: ['all', 'complete', 'active'],
             required: true,
             default: 'all',
         },
+        completed: {
+            type: Boolean,
+            default: false,
+        }
     },
     {
         timestamps: true,
