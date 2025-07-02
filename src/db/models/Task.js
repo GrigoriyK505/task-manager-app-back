@@ -10,12 +10,6 @@ const taskSchema = new Schema(
             type: String,
             required: false,
         },
-        taskType: {
-            type: String,
-            enum: ['all', 'complete', 'active'],
-            required: true,
-            default: 'all',
-        },
         completed: {
             type: Boolean,
             default: false,
@@ -27,4 +21,4 @@ const taskSchema = new Schema(
     },
 );
 
-export const TaskCollection = model('tasks', taskSchema);
+export const TaskCollection = model('task', taskSchema);
