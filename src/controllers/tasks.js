@@ -1,6 +1,6 @@
 import createHttpError from "http-errors";
 import { createTask, deleteTask, getTaskById, updateTask } from "../services/tasks.js";
-import { Task } from "../db/models/Task.js";
+import { TaskCollection } from "../db/models/Task.js";
 
 export const getTasksController = async (req, res) => {
   const { taskType } = req.query;
@@ -10,7 +10,7 @@ export const getTasksController = async (req, res) => {
     filter.taskType = taskType;
   }
 
-  const tasks = await Task.find(filter);
+  const tasks = await TaskCollection.find(filter);
   res.json({ status: 200, message: "Successfully found tasks!", data: tasks });
 };
 
