@@ -1,23 +1,17 @@
 import createHttpError from "http-errors";
-import { createTask, deleteTask, getTaskById, getTasks, updateTask } from "../services/tasks.js";
-import { parsePaginationParams } from "../utils/parsePaginationParams.js";
-import { parseFilterParams } from "../utils/parseFilterParams.js";
+import { createTask, deleteTask, getTaskById, updateTask } from "../services/tasks.js";
+import { TaskCollection } from "../db/models/Task.js";
 
-export const getTasksController = async(req, res) => {
-    const {page, perPage} = parsePaginationParams(req.query);
-    const filter = parseFilterParams(req.query);
+export const getTasksController = async (req, res) => {
+  const { taskType } = req.query;
 
-    const data = await getTasks({
-        page,
-        perPage,
-        filter,
-    });
+  let filter = {};
+  if (taskType && taskType !== "all") {
+    filter.taskType = taskType;
+  }
 
-    res.json({
-        status: 200,
-        message: "Successfully found tasks!",
-        ...data,
-    });
+  const tasks = await TaskCollection.find(filter);
+  res.json({ status: 200, message: "Successfully found tasks!", data: tasks });
 };
 
 export const getTasksByIdController = async(req, res) => {

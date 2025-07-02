@@ -2,7 +2,7 @@ const parseType = (taskType) => {
     const isString = typeof taskType === 'string';
     if(!isString) return;
 
-    const isType = (taskType) => ['all', 'complete', 'incomplete'].includes(taskType);
+    const isType = (taskType) => ['all', 'complete', 'active'].includes(taskType);
 
     if(isType(taskType)) return taskType;
 };
