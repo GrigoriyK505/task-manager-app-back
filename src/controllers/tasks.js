@@ -1,6 +1,6 @@
 import createHttpError from "http-errors";
 import { createTask, deleteTask, getTaskById, updateTask } from "../services/tasks.js";
-import { Task } from "../models/taskModel.js";
+import { Task } from "../db/models/Task.js";
 
 export const getTasksController = async (req, res) => {
   const { taskType } = req.query;
